@@ -1,6 +1,77 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  outline: none;
+}
+body {
+  display: flex;
+  min-height: 100vh;
+  background: #f2ebd2;
+}
+aside {
+  flex: 2;
+}
+section {
+  flex: 8;
+  display: block;
+  height: 100%;
+}
+.dateTimeBx {
+  /* background: rgb(89, 5, 5); */
+  height: 50px;
+  position: relative;
+}
+#date {
+  position: absolute;
+  right: 5%;
+  top: 7%;
+  font-size: 1.3rem;
+}
+#time {
+  position: absolute;
+  right: 5%;
+  bottom: 9%;
+  font-size: 1.3rem;
+}
+.timerBx {
+  /* background: rgb(31, 13, 133); */
+  position: relative;
+  height: 100px;
+  font-size: 2rem;
+}
+.timerBx > div {
+  position: absolute;
+  right: 40%;
+  top: 10%;
+}
+.timerBx > div span.timerBtn {
+  font-size: 1.5rem;
+  padding: 5px 10px;
+  border-radius: 7px;
+  box-shadow: 5px 5px 10px #575353c0;
+  color: #fff;
+  letter-spacing: 5px;
+}
+#startBtn {
+  background-color: rgb(104, 5, 5);
+}
+#resetBtn {
+  background-color: grey;
+}
+.inputBx {
+  background: rgb(42, 105, 3);
+  position: relative;
+  display: block;
+  padding: 3% 20%;
+}
+.clearBx {
+  background: red;
+}
+.colHeaderBx {
+  background: rgb(103, 38, 71);
+}
+.tasksBx {
+  background: rgb(147, 131, 41);
 }

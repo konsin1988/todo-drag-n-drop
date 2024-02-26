@@ -1,15 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="discription" content="content">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="discription" content="content" />
     <title>To Do</title>
     <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico" />
     <link rel="stylesheet" href="./css/main.css" />
     <script src="./js/main.js" defer></script>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <aside></aside>
+    <section>
+      <div class="dateTimeBx">
+        <div id="date">12.11.2027</div>
+        <div id="time">14:08:13</div>
+      </div>
+      <div class="timerBx">
+        <div>
+          00:00:00
+          <span class="timerBtn" id="startBtn">Start</span>
+          <span class="timerBtn" id="resetBtn">Reset</span>
+        </div>
+      </div>
+      <div class="inputBx">
+        <input
+          id="inputTask"
+          type="text"
+          placeholder="Enter task here"
+        /><button type="submit" id="btnSubmit">Add task</button>
+      </div>
+      <div class="clearBx">
+        <div class="clearBtn">Clear</div>
+      </div>
+      <div class="colHeaderBx">
+        <div class="colHeader start">Start</div>
+        <div class="colHeader inProgress">In progress</div>
+        <div class="colHeader done">Done</div>
+      </div>
+      <div class="tasksBx">
+        <div class="placeholder">
+          <div class="task" draggable="true" data-index="0">
+            Task 1 - To do todo
+          </div>
+        </div>
+        <div class="placeholder"></div>
+        <div class="placeholder"></div>
+      </div>
+    </section>
+    <aside></aside>
+  </body>
 </html>

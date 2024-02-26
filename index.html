@@ -18,7 +18,7 @@
       </div>
       <div class="timerBx">
         <div>
-          00:00:00
+          <span id="timer">00:00:00</span>
           <span class="timerBtn" id="startBtn">Start</span>
           <span class="timerBtn" id="resetBtn">Reset</span>
         </div>
@@ -28,7 +28,7 @@
           id="inputTask"
           type="text"
           placeholder="Enter task here"
-        /><button type="submit" id="btnSubmit">Add task</button>
+        /><button type="text" id="submitBtn">Add task</button>
       </div>
       <div class="clearBx">
         <div class="clearBtn">Clear</div>
@@ -39,13 +39,23 @@
         <div class="colHeader done">Done</div>
       </div>
       <div class="tasksBx">
-        <div class="placeholder">
+        <div class="placeholder" id="startPh">
           <div class="task" draggable="true" data-index="0">
-            Task 1 - To do todo
+            Task 1 - To do todo sdfdsfsadfsfsdfsddd
+          </div>
+          <div class="task" draggable="true" data-index="0">
+            Task 1 - To do todo sdfdsfsadfsfsdfsddd
           </div>
         </div>
-        <div class="placeholder"></div>
-        <div class="placeholder"></div>
+        <div class="placeholder" id="inProgressPh">
+          <div class="task" draggable="true" data-index="0">
+            Task 1 - To do todo sdfdsfsadfsfsdfsddd
+          </div>
+          <div class="task" draggable="true" data-index="0">
+            Task 1 - To do todo sdfdsfsadfsfsdfsddd
+          </div>
+        </div>
+        <div class="placeholder" id="donePh"></div>
       </div>
     </section>
     <aside></aside>

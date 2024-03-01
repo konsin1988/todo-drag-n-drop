@@ -204,6 +204,7 @@ section {
   margin: 0 1%;
   flex-direction: column;
 }
+
 .tasksBx .placeholder .task {
   font-size: 1rem;
   position: relative;
@@ -255,7 +256,20 @@ section {
 
   section {
     flex: none;
-    /* width: 300px; */
+
     transform: scale(0.75);
   }
+}
+.hold {
+  border: 2px solid rgb(179, 153, 153);
+}
+.hide {
+  /* display: none; */
+  visibility: hidden;
+}
+.hovered {
+  background: rgba(0, 0, 0, 0.151);
+  border-radius: 20px;
+  /* filter: blur(30px); */
+  /* border-top: 4px solid red; */
 }

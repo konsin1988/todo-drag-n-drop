@@ -71,15 +71,19 @@ function stopInterval() {
 
 const task = document.getElementById("inputTask");
 const submit = document.getElementById("submitBtn");
-const clearBtn = document.querySelector(".clearBtn");
-const start = document.getElementById("startPh");
-const inProgress = document.getElementById("inProgressPh");
-const done = document.getElementById("donePh");
+const placeholders = document.querySelectorAll(".placeholder");
+let tasksDoc = document.querySelectorAll(".task");
 
 const tasks = [[], [], []];
 
-function getTemplate(task, index) {
-  return `<div class="task" draggable="true" data-index="${index}">${task}</div>`;
+function clearInnerHTML(holders) {
+  for (let holder of holders) {
+    holder.innerHTML = "";
+  }
+}
+
+function getTemplate(task, placeholder, index) {
+  return `<div class="task" draggable="true" data-holder=${placeholder} data-index="${index}">${task}</div>`;
 }
 
 submit.addEventListener("click", () => {
@@ -89,28 +93,99 @@ submit.addEventListener("click", () => {
   const newTask = {
     title: task.value,
   };
-  console.log(tasks[0]);
   tasks[0].push(newTask);
   render(tasks);
   task.value = "";
 });
 
 function render(array) {
-  start.innerHTML = "";
-  inProgress.innerHTML = "";
-  done.innerHTML = "";
-  for (let i = 0; i < array[0].length; ++i) {
-    start.insertAdjacentHTML("afterbegin", getTemplate(array[0][i].title, i));
+  for (let i = 0; i < placeholders.length; ++i) {
+    placeholders[i].innerHTML = "";
+    for (let j = 0; j < array[i].length; ++j) {
+      placeholders[i].insertAdjacentHTML(
+        "afterbegin",
+        getTemplate(array[i][j].title, i, j)
+      );
+    }
   }
-  for (let i = 0; i < array[1].length; ++i) {
-    inProgress.insertAdjacentHTML(
-      "afterbegin",
-      getTemplate(array[1][i].title, i)
-    );
-  }
-  for (let i = 0; i < array[2].length; ++i) {
-    done.insertAdjacentHTML("afterbegin", getTemplate(array[2][i].title, i));
+  tasksDoc = document.querySelectorAll(".task");
+  for (let task of tasksDoc) {
+    task.addEventListener("dragstart", dragstart);
+    task.addEventListener("dragend", dragend);
   }
 }
 
 render(tasks);
+
+/**************** Drag and Drop *************** */
+let current = 0;
+let placeholderDrag = 0;
+let insertTask = 0;
+
+for (const placeholder of placeholders) {
+  placeholder.addEventListener("dragover", dragover);
+  placeholder.addEventListener("dragenter", dragenter);
+  placeholder.addEventListener("dragleave", dragleave);
+  placeholder.addEventListener("drop", dragdrop);
+}
+
+function dragover(event) {
+  event.preventDefault();
+  if (event.target.dataset.index) {
+    insertTask = event.target.dataset.index;
+    const holderCurrent = event.target.dataset.holder;
+    const listTask = document.querySelector(
+      `.placeholder[data-indexholder="${holderCurrent}"]`
+    );
+    const targetTask =
+      listTask.children[
+        listTask.childElementCount - 1 - event.target.dataset.index
+      ];
+    const insertableTask = document.querySelector(".hide");
+    console.log(insertableTask);
+    listTask.insertBefore(insertableTask, targetTask);
+  }
+}
+function dragenter(event) {
+  event.target.classList.add("hovered");
+}
+function dragleave(event) {
+  event.target.classList.remove("hovered");
+}
+function dragdrop(event) {
+  const newTask = {
+    title: tasks[placeholderDrag][current].title,
+  };
+  tasks[placeholderDrag].splice(current, 1);
+  render(tasks);
+  if (event.target.dataset.indexholder) {
+    tasks[+event.target.dataset.indexholder].splice(+insertTask, 0, newTask);
+    render(tasks);
+  } else if (event.target.dataset.index) {
+    tasks[+event.target.dataset.holder].splice(+insertTask, 0, newTask);
+    render(tasks);
+  }
+  event.target.classList.remove("hovered");
+}
+
+function dragstart(event) {
+  placeholderDrag = +event.target.dataset.holder;
+  current = +event.target.dataset.index;
+  event.target.classList.add("hold");
+
+  setTimeout(() => {
+    event.target.classList.add("hide");
+  }, 0);
+}
+function dragend(event) {
+  event.target.className = "task";
+}
+
+/******************** Crear *************/
+
+const clearBtn = document.querySelector(".clearBtn");
+
+clearBtn.addEventListener("click", () => {
+  tasks[2].length = 0;
+  render(tasks);
+});

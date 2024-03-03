@@ -76,8 +76,8 @@ let tasksDoc = document.querySelectorAll(".task");
 
 const tasks = [[], [], []];
 
-function clearInnerHTML(holders) {
-  for (let holder of holders) {
+function clearInnerHTML() {
+  for (let holder of placeholders) {
     holder.innerHTML = "";
   }
 }
@@ -99,8 +99,8 @@ submit.addEventListener("click", () => {
 });
 
 function render(array) {
+  clearInnerHTML();
   for (let i = 0; i < placeholders.length; ++i) {
-    placeholders[i].innerHTML = "";
     for (let j = 0; j < array[i].length; ++j) {
       placeholders[i].insertAdjacentHTML(
         "afterbegin",
@@ -132,18 +132,8 @@ for (const placeholder of placeholders) {
 function dragover(event) {
   event.preventDefault();
   if (event.target.dataset.index) {
-    insertTask = event.target.dataset.index;
-    const holderCurrent = event.target.dataset.holder;
-    const listTask = document.querySelector(
-      `.placeholder[data-indexholder="${holderCurrent}"]`
-    );
-    const targetTask =
-      listTask.children[
-        listTask.childElementCount - 1 - event.target.dataset.index
-      ];
-    const insertableTask = document.querySelector(".hide");
-    console.log(insertableTask);
-    listTask.insertBefore(insertableTask, targetTask);
+    insertTask = +event.target.dataset.index;
+    event.target.classList.add("taskOver");
   }
 }
 function dragenter(event) {
@@ -151,6 +141,7 @@ function dragenter(event) {
 }
 function dragleave(event) {
   event.target.classList.remove("hovered");
+  event.target.classList.remove("taskOver");
 }
 function dragdrop(event) {
   const newTask = {
@@ -158,13 +149,13 @@ function dragdrop(event) {
   };
   tasks[placeholderDrag].splice(current, 1);
   render(tasks);
-  if (event.target.dataset.indexholder) {
-    tasks[+event.target.dataset.indexholder].splice(+insertTask, 0, newTask);
-    render(tasks);
-  } else if (event.target.dataset.index) {
-    tasks[+event.target.dataset.holder].splice(+insertTask, 0, newTask);
-    render(tasks);
-  }
+  const newPlaceholder = event.target.dataset.indexholder
+    ? +event.target.dataset.indexholder
+    : +event.target.dataset.holder;
+  insertTask = newPlaceholder === placeholderDrag ? insertTask : insertTask + 1;
+  insertTask = event.target.dataset.indexholder ? 0 : insertTask;
+  tasks[newPlaceholder].splice(insertTask, 0, newTask);
+  render(tasks);
   event.target.classList.remove("hovered");
 }
 
@@ -186,6 +177,12 @@ function dragend(event) {
 const clearBtn = document.querySelector(".clearBtn");
 
 clearBtn.addEventListener("click", () => {
-  tasks[2].length = 0;
-  render(tasks);
+  const cleanHolder = document.querySelectorAll(`.task[data-holder="2"]`);
+  cleanHolder.forEach((elem) => {
+    elem.classList.add("removeAnimation");
+  });
+  setTimeout(() => {
+    tasks[2].length = 0;
+    render(tasks);
+  }, 900);
 });
